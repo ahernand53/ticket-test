@@ -2,6 +2,7 @@ import Vuetify from "vuetify"
 import VueRouter from "vue-router";
 
 import Home from "./views/Home";
+import CreateTicket from "./views/CreateTicket";
 
 require('./bootstrap');
 window.Vue = require('vue');
@@ -22,6 +23,11 @@ const router = new VueRouter({
             path: '/',
             name: 'home',
             component: Home
+        },
+        {
+            path: '/nuevo-ticket',
+            name: 'new-ticket',
+            component: CreateTicket
         }
     ]
 })
