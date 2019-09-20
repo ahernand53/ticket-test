@@ -17,7 +17,7 @@ class CreateTicketsTable extends Migration
             $table->bigIncrements('id');
             $table->string('issue');
             $table->string('priority');
-            $table->boolean('state');
+            $table->boolean('state')->default(true);
             $table->date('assignationDate');
             $table->unsignedBigInteger('user_id');
 

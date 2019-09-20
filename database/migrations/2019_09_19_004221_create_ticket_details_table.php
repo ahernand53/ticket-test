@@ -16,14 +16,15 @@ class CreateTicketDetailsTable extends Migration
         Schema::create('ticket_details', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('task');
-            $table->boolean('state');
+            $table->boolean('state')->default(true);
             $table->string('concluding_remarks')->nullable();
             $table->unsignedBigInteger('ticket_id');
 
 
             $table->foreign('ticket_id')
                 ->references('id')
-                ->on('tickets');
+                ->on('tickets')
+                ->onDelete('cascade');
         });
     }
 
