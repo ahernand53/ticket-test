@@ -7,6 +7,9 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <!-- User logged -->
+    <meta name="user" content="{{ auth()->user() }}">
+
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
@@ -20,12 +23,12 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div id="app">
+    <v-app id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container p-0">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <router-link class="navbar-brand" to="/">
                     {{ config('app.name', 'Laravel') }}
-                </a>
+                </router-link>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -49,10 +52,17 @@
                                 </li>
                             @endif
                         @else
-                            <li class="nav-item dropdown">
-                                <router-link to="" class="nav-link">
-                                    <v-btn>Nuevo Ticket</v-btn>
+                            <li class="nav-item">
+                                <router-link to="/nuevo-ticket" class="nav-link">
+                                    <v-btn
+                                        small
+                                        color="success">
+                                        Nuevo Ticket
+                                    </v-btn>
                                 </router-link>
+                            </li>
+
+                            <li class="nav-item dropdown">
 
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
@@ -76,9 +86,9 @@
             </div>
         </nav>
 
-        <v-app class="py-4">
+        <main class="py-4">
             @yield('content')
-        </v-app>
-    </div>
+        </main>
+    </v-app>
 </body>
 </html>

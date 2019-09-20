@@ -2080,8 +2080,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "CreateTicket",
   data: function data() {
@@ -38024,20 +38022,16 @@ var render = function() {
                 [
                   _c(
                     "router-link",
-                    { attrs: { to: { name: "home" } } },
+                    {
+                      staticClass: "text-decoration-none",
+                      attrs: { to: { name: "home" } }
+                    },
                     [
-                      _c(
-                        "v-btn",
-                        {
-                          staticClass: "mr-4",
-                          attrs: { color: "error", block: "" }
-                        },
-                        [
-                          _vm._v(
-                            "\n                        Cancelar\n                    "
-                          )
-                        ]
-                      )
+                      _c("v-btn", { attrs: { color: "error", block: "" } }, [
+                        _vm._v(
+                          "\n                        Cancelar\n                    "
+                        )
+                      ])
                     ],
                     1
                   )
@@ -38052,7 +38046,6 @@ var render = function() {
                   _c(
                     "v-btn",
                     {
-                      staticClass: "mr-4",
                       attrs: {
                         disabled: !_vm.valid,
                         color: "success",

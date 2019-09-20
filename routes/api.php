@@ -13,6 +13,13 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::get('/users', function () {
+
+    $users = App\User::all();
+
+    return $users;
+
 });
+
+Route::resource('tickets', 'TicketController')->except(['edit', 'create', 'show']);
+Route::post('tickets/{ticket}/close', 'TicketController@close');
