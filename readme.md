@@ -27,11 +27,14 @@ Se realiza un crud con laravel v-6.0 para el backend y se consumen con Vue.js v-
 3. Genera la llave del proyecto
     `php artisan key:generate`
  
-4. Luego de confirar lo anterior, puede iniciar las migraciones *(recuerde asignar variables de la base de datos en el archivo .env)*
+4. Luego de realizar lo anterior, puede iniciar las migraciones *(recuerde asignar variables de la base de datos en el archivo .env)*
     `php artisan migrate`
     
 5. Instala los paquetes de node
     `npm install`
+    
+6. Compilar Assets
+    `npm run dev`
     
 6. Por ultimo ya puede lanzar el servidor
     `php artisan serve`
