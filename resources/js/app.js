@@ -1,5 +1,6 @@
 import Vuetify from "vuetify"
 import VueRouter from "vue-router";
+import store from './store'
 
 import Home from "./views/Home";
 import CreateTicket from "./views/CreateTicket";
@@ -36,5 +37,6 @@ const router = new VueRouter({
 const app = new Vue({
     el: '#app',
     router,
-    vuetify
+    vuetify,
+    store
 });

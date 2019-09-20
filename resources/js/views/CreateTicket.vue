@@ -13,7 +13,7 @@
                     <v-row>
                         <v-text-field
                             v-model="issue"
-                            :counter="30"
+                            :counter="40"
                             label="Asunto"
                             :rules="[v => !!v || 'Debe colocar un asunto al ticket']"
                             required
@@ -25,7 +25,8 @@
                             v-model="tasks"
                             label="Tareas a ejecutar"
                             required
-                            :rules="[v => !!v || 'Debe agregar tareas al ticket']"
+                            no-resize
+                            :rules="[v => !!v || 'agregue tareas al ticket']"
                         ></v-textarea>
                     </v-row>
 
@@ -33,6 +34,7 @@
                         <v-col cols="4">
                             <v-select
                                 v-model="priority"
+                                prepend-icon="mdi-car-brake-alert"
                                 :items="priorities"
                                 :rules="[v => !!v || 'Seleccione una prioridad']"
                                 label="Prioridad"
@@ -42,7 +44,11 @@
                         <v-col cols="4">
                             <v-select
                                 v-model="userAssigned"
+                                prepend-icon="mdi-account-arrow-right"
+                                :hint="`${userAssigned.name}, ${userAssigned.id}`"
                                 :items="users"
+                                item-text="name"
+                                item-value="id"
                                 :rules="[v => !!v || 'Debe asignar un usuario']"
                                 label="Usuario a asignar"
                                 required>
@@ -53,16 +59,15 @@
                                 ref="menu"
                                 v-model="menu"
                                 :close-on-content-click="false"
-                                :return-value.sync="date"
+                                :return-value.sync="assignationDate"
                                 transition="scale-transition"
                                 offset-y
-                                full-width
                                 min-width="290px"
                                 bottom
                             >
                                 <template v-slot:activator="{ on }">
                                     <v-text-field
-                                        v-model="date"
+                                        v-model="assignationDate"
                                         label="Fecha de asignacion"
                                         prepend-icon="mdi-calendar-range"
                                         readonly
@@ -71,10 +76,10 @@
                                         required
                                     ></v-text-field>
                                 </template>
-                                <v-date-picker v-model="date" no-title scrollable>
+                                <v-date-picker v-model="assignationDate" no-title scrollable>
                                     <div class="flex-grow-1"></div>
                                     <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-                                    <v-btn text color="primary" @click="$refs.menu.save(date)">OK</v-btn>
+                                    <v-btn text color="primary" @click="$refs.menu.save(assignationDate)">OK</v-btn>
                                 </v-date-picker>
                             </v-menu>
                         </v-col>
@@ -100,6 +105,7 @@
                         :disabled="!valid"
                         color="success"
                         block
+                        @click="addTicket"
                     >
                         Crear Ticket
                     </v-btn>
@@ -111,6 +117,8 @@
 </template>
 
 <script>
+    import {mapMutations} from 'vuex'
+
     let user = document.head.querySelector('meta[name="user"]');
 
     export default {
@@ -122,26 +130,50 @@
                 issue: '',
                 priority: '',
                 tasks: '',
-                date: '',
+                menu: false,
+                assignationDate: '',
                 priorities: [
-                    'Alta',
-                    'Media',
-                    'Baja'
+                    'ALTO',
+                    'MEDIO',
+                    'BAJO'
                 ],
-                users: [
-                    'User 1',
-                    'User 2',
-                    'User 3',
-                    'User 4',
-                    'User 5',
-                    'User 6',
-                ]
+                users: []
             }
         },
         computed: {
             user() {
                 return JSON.parse(user.content)
             }
+        },
+        methods: {
+            ...mapMutations([
+                'alertTicket'
+            ]),
+            addTicket() {
+                let self = this
+                axios.post('/api/tickets/', {
+                    issue: this.issue,
+                    priority: this.priority,
+                    user: this.userAssigned,
+                    task: this.tasks,
+                    assignationDate: this.assignationDate
+                })
+                    .catch(error => {
+                        console.log(error)
+                    })
+                this.$router.push({name: 'home'})
+                self.alertTicket('Se ha creado exitosamente el ticket')
+            },
+            getUsers() {
+                let self = this
+                axios.get('/api/users')
+                    .then(data => {
+                        self.users = data.data
+                    })
+            }
+        },
+        mounted() {
+            this.getUsers()
         }
     }
 </script>

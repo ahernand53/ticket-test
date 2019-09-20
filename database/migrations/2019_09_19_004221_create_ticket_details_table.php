@@ -15,7 +15,7 @@ class CreateTicketDetailsTable extends Migration
     {
         Schema::create('ticket_details', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('task');
+            $table->text('task');
             $table->boolean('state')->default(true);
             $table->string('concluding_remarks')->nullable();
             $table->unsignedBigInteger('ticket_id');

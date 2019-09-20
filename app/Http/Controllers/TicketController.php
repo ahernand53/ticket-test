@@ -16,7 +16,7 @@ class TicketController extends Controller
      */
     public function index()
     {
-        $tickets = Ticket::all();
+        $tickets = Ticket::orderBy('id', 'DESC')->get();
 
         return response()->json(['data' => $tickets], 200);
     }
@@ -62,7 +62,7 @@ class TicketController extends Controller
 
         $ticket = Ticket::find($ticket);
 
-        return response()->json(['data' => $ticket], 200);
+        return response()->json($ticket, 200);
     }
 
     /**
