@@ -22,6 +22,16 @@ class TicketController extends Controller
     }
 
     /**
+     * @param Ticket $ticket
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show(Ticket $ticket) {
+
+        return response()->json($ticket, 200);
+
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
@@ -35,8 +45,9 @@ class TicketController extends Controller
         $ticket = new Ticket([
             'issue' => $request->get('issue'),
             'priority' => $request->get('priority'),
-            'assignationDate' => $request->get('assignationDate'),
-            'user_id' => $request->get('user')
+            'assignation_date' => $request->get('assignation_date'),
+            'user_id' => $request->get('user'),
+            'user_assigned' => $request->get('userAssigned')
         ]);
 
         $ticket->save();
@@ -74,27 +85,36 @@ class TicketController extends Controller
      */
     public function update(Request $request, Ticket $ticket)
     {
-        if ($request->has('issue')){
+        if ($request->has('issue') &&
+            $request->has('issue') !== $ticket->issue){
             $ticket->issue = $request->get('issue');
             $ticket->save();
         }
 
-        if ($request->has('priority')){
+        if ($request->has('priority') &&
+            $request->has('priority') !== $ticket->priority){
             $ticket->priority = $request->get('priority');
             $ticket->save();
         }
 
-        if ($request->has('assignationDate')){
-            $ticket->assignationDate = $request->get('assignationDate');
+        if ($request->has('assignation_date') &&
+            $request->has('assignation_date') !== $ticket->assignation_date){
+            $ticket->assignation_date = $request->get('assignation_date');
             $ticket->save();
         }
 
-        if ($request->has('user_id')){
-            $ticket->user_id = $request->get('user');
+        if ($request->has('user_assigned') &&
+            $request->has('user_assigned') !== $ticket->user_assigned){
+            if ( $request->get('user_assigned')['id'] ) {
+                $ticket->user_assigned = $request->get('user_assigned')['id'];
+            } else {
+                $ticket->user_assigned = $request->get('user_assigned');
+            }
             $ticket->save();
         }
 
-        if ($request->has('task')) {
+        if ($request->has('task') &&
+            $request->has('task') !== $ticket->details->task) {
             $ticket->details()->update(['task' => $request->get('task')]);
         }
 

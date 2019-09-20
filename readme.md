@@ -42,8 +42,9 @@ Se realiza un crud con laravel v-6.0 para el backend y se consumen con Vue.js v-
 ##### Parte Logica
 1. Podrá registrarse automaticamente como usuario
 2. No podrá agregar nuevos ticket sin haber iniciado session
-3. Los ticket solo sera cerrados a quien se le haya asignado
-4. Los ticket solo podran ser eliminados luego de cerrarse y solo a quien le fue asignado
+3. al cerrar es requerido las observaciones
+3. Los ticket solo sera cerrados por quien lo creo o a quien se le haya asignado
+4. Los ticket solo podran ser eliminados luego de cerrarse y solo por quien lo creo o a quien se le haya asignado
 5. El ticket podra ser editado solo por quien lo creo
 6. El orden de la lista de ticket sera descendente a la creacion
 
@@ -55,6 +56,7 @@ Se realiza un crud con laravel v-6.0 para el backend y se consumen con Vue.js v-
 | Ruta | Tipo | Argumentos |
 | --------- | --------- | --------- |
 | /api/tickets | GET / HEAD |
+| /api/tickets/{ticket} | GET / HEAD | ticket |
 | /api/tickets | POST | issue, priority, user, task, assignationDate |
 | /api/tickets/{tickets} | PUT / PATCH | issue, priority, user, task, assignationDate |
 | /api/tickets/{tickets} | DELETE | ticket |

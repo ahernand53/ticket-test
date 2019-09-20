@@ -9,7 +9,7 @@
                 </v-col>
                 <v-col
                 cols="4">
-                    {{ ticket.assignationDate }}
+                    {{ ticket.assignation_date }}
                 </v-col>
                 <v-col
                 cols="2">
@@ -62,7 +62,7 @@
                 <v-row>
                     <v-col
                         cols="5">
-                        Fecha assignada <span class="badge">{{ ticket.assignationDate }}</span>
+                        Fecha assignada <span class="badge">{{ ticket.assignation_date }}</span>
                     </v-col>
                     <v-col
                         cols="3">
@@ -87,26 +87,11 @@
                         <v-chip
                             small
                             label>
-                            {{ ticket.user.name }}
+                            {{ ticket.user_assigned.name }}
                         </v-chip>
                     </v-col>
                 </v-row>
-                <v-dialog v-if="ticket.state && isLogged()" v-model="dialog" persistent max-width="500">
-                    <template v-slot:activator="{ on }">
-                        <v-btn
-                            id="close-ticket"
-                            v-on="on"
-                            absolute
-                            dark
-                            fab
-                            botton
-                            right
-                            small
-                            color="#EF5350"
-                        >
-                            <v-icon>mdi-lock</v-icon>
-                        </v-btn>
-                    </template>
+                <v-dialog v-model="alertClose" max-width="500">
                     <v-card>
                         <v-card-title class="headline">Desea cerrar el ticket?</v-card-title>
                         <v-card-text>
@@ -125,10 +110,9 @@
                         </v-card-text>
                         <v-card-actions>
                             <div class="flex-grow-1"></div>
-                            <v-btn color="green darken-1" text @click="dialog = false">Cancelar</v-btn>
+                            <v-btn color="green darken-1" text @click="alertClose = false">Cancelar</v-btn>
                             <v-btn
-                                color="green darken-1"
-                                text
+                                color="error"
                                 @click="this.closeTicket"
                                 :disabled="!validateToClose"
                             >
@@ -137,6 +121,85 @@
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
+
+                <v-dialog v-model="alertDelete" max-width="500">
+                    <v-card>
+                        <v-card-title class="headline">Desea eliminar el ticket?</v-card-title>
+                        <v-card-text>
+                            <v-row>
+                                <v-col>
+                                    <v-btn
+                                        color="green darken-1"
+                                        text
+                                        block
+                                        @click="alertDelete = false">
+                                        Cancelar
+                                    </v-btn>
+                                </v-col>
+                                <v-col>
+                                    <v-btn
+                                        color="error"
+                                        block
+                                        @click="deleteTicket()"
+                                    >
+                                        Eliminar Ticket
+                                    </v-btn>
+                                </v-col>
+                            </v-row>
+                        </v-card-text>
+                    </v-card>
+                </v-dialog>
+                <v-speed-dial
+                    open-on-hover
+                    absolute
+                    bottom
+                    fab
+                    right
+                    v-if="isAssigned() || isYours()"
+                >
+                    <template v-slot:activator>
+                        <v-btn
+                            color="blue darken-2"
+                            dark
+                            small
+                            fab
+                        >
+                            <v-icon>mdi-tools</v-icon>
+                        </v-btn>
+                    </template>
+
+                    <v-btn
+                        v-if="ticket.state && isAssigned() || ticket.state && isYours()"
+                        dark
+                        small
+                        fab
+                        color="error"
+                        @click="alertClose = true"
+                    >
+                        <v-icon>mdi-lock</v-icon>
+                    </v-btn>
+                    <v-btn
+                        v-if="ticket.state && isYours()"
+                        dark
+                        small
+                        fab
+                        class="text-decoration-none"
+                        color="warning"
+                        :to="`/editar/${ticket.id}`"
+                    >
+                        <v-icon>mdi-pencil</v-icon>
+                    </v-btn>
+                    <v-btn
+                        v-if="!ticket.state && isYours() || !ticket.state && isAssigned()"
+                        dark
+                        small
+                        fab
+                        color="red"
+                        @click="alertDelete = true"
+                    >
+                        <v-icon>mdi-delete</v-icon>
+                    </v-btn>
+                </v-speed-dial>
             </v-container>
         </v-expansion-panel-content>
     </v-expansion-panel>
@@ -154,9 +217,10 @@
         ],
         data() {
             return {
-                dialog: false,
+                alertClose: false,
                 validateToClose: false,
-                concluding_remarks: ''
+                concluding_remarks: '',
+                alertDelete: false
             }
         },
         methods: {
@@ -173,19 +237,37 @@
                 }
             },
             isLogged() {
-                return user.content && JSON.parse(user.content).name === this.ticket.user.name
+                return user.content;
+            },
+            isYours() {
+                return user.content && JSON.parse(user.content).id === this.ticket.user.id;
+            },
+            isAssigned() {
+                return  user.content && JSON.parse(user.content).id === this.ticket.user_assigned.id
             },
             closeTicket() {
                 let self = this
-                this.dialog = false
                 axios.post(`/api/tickets/${this.ticket.id}/close`, {
                     concluding_remarks: this.concluding_remarks
                 })
                     .then(data => {
                         self.ticket.details.concluding_remarks = data.data[0].details.concluding_remarks
+                        self.alertClose = false
                     })
                 this.ticket.state = false
                 this.alertTicket('Ticket cerrado exitosamente')
+            },
+            deleteTicket() {
+                let self = this
+                axios.delete(`/api/tickets/${self.ticket.id}`)
+                    .then(response => {
+                        self.alertDelete = false
+                        self.alertTicket('El ticket ha sido eliminado exitosamente')
+                        this.$router.go()
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
             }
         },
         computed: {
@@ -195,7 +277,3 @@
         }
     }
 </script>
-
-<style scoped lang="scss">
-
-</style>

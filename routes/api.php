@@ -21,5 +21,5 @@ Route::get('/users', function () {
 
 });
 
-Route::resource('tickets', 'TicketController')->except(['edit', 'create', 'show']);
+Route::resource('tickets', 'TicketController')->except(['edit', 'create']);
 Route::post('tickets/{ticket}/close', 'TicketController@close');
