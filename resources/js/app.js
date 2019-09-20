@@ -4,6 +4,7 @@ import store from './store'
 
 import Home from "./views/Home";
 import CreateTicket from "./views/CreateTicket";
+import EditTicket from "./views/EditTicket";
 
 require('./bootstrap');
 window.Vue = require('vue');
@@ -29,6 +30,15 @@ const router = new VueRouter({
             path: '/nuevo-ticket',
             name: 'new-ticket',
             component: CreateTicket
+        },
+        {
+            path: '/editar/:id',
+            name: 'edit-ticket',
+            component: EditTicket
+        },
+        {
+            path: '/*',
+            component: Home
         }
     ]
 })

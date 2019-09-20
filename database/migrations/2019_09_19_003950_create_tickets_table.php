@@ -18,8 +18,14 @@ class CreateTicketsTable extends Migration
             $table->string('issue');
             $table->string('priority');
             $table->boolean('state')->default(true);
-            $table->date('assignationDate');
+            $table->date('assignation_date');
+            $table->unsignedBigInteger('user_assigned');
             $table->unsignedBigInteger('user_id');
+
+            $table->foreign('user_assigned')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
 
             $table->foreign('user_id')
                 ->references('id')

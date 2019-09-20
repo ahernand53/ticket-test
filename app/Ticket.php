@@ -10,7 +10,8 @@ class Ticket extends Model
 
     protected $with = [
         'details',
-        'user'
+        'user',
+        'userAssigned'
     ];
 
     public $timestamps = false;
@@ -19,13 +20,13 @@ class Ticket extends Model
         'issue',
         'priority',
         'state',
-        'assignationDate',
-        'user_id'
+        'assignation_date',
+        'user_id',
+        'user_assigned'
     ];
 
     protected $casts = [
-        'state' => 'boolean',
-        'assignationDate' => 'date:M d Y'
+        'state' => 'boolean'
     ];
 
     protected $attributes = [
@@ -36,8 +37,10 @@ class Ticket extends Model
         return [
             'issue' => 'required|string',
             'priority' => 'required|in:' . implode(',', array('ALTO', 'MEDIO', 'BAJO')),
-            'assignationDate' => 'required|date:yyyy-mm-dd',
-            'task' => 'required|string'
+            'assignation_date' => 'required|date:yyyy-mm-dd',
+            'task' => 'required|string',
+            'user' => 'required',
+            'userAssigned' => 'required'
         ];
     }
 
@@ -47,5 +50,13 @@ class Ticket extends Model
 
     public function user() {
         return $this->belongsTo(User::class);
+    }
+
+    public function userAssigned() {
+        return $this->belongsTo(
+            User::class,
+            'user_assigned',
+            'id'
+        );
     }
 }

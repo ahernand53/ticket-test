@@ -1989,6 +1989,69 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var user = document.head.querySelector('meta[name="user"]');
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1996,9 +2059,10 @@ var user = document.head.querySelector('meta[name="user"]');
   props: ['ticket'],
   data: function data() {
     return {
-      dialog: false,
+      alertClose: false,
       validateToClose: false,
-      concluding_remarks: ''
+      concluding_remarks: '',
+      alertDelete: false
     };
   },
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(['alertTicket']), {
@@ -2012,18 +2076,37 @@ var user = document.head.querySelector('meta[name="user"]');
       }
     },
     isLogged: function isLogged() {
-      return user.content && JSON.parse(user.content).name === this.ticket.user.name;
+      return user.content;
+    },
+    isYours: function isYours() {
+      return user.content && JSON.parse(user.content).id === this.ticket.user.id;
+    },
+    isAssigned: function isAssigned() {
+      return user.content && JSON.parse(user.content).id === this.ticket.user_assigned.id;
     },
     closeTicket: function closeTicket() {
       var self = this;
-      this.dialog = false;
       axios.post("/api/tickets/".concat(this.ticket.id, "/close"), {
         concluding_remarks: this.concluding_remarks
       }).then(function (data) {
         self.ticket.details.concluding_remarks = data.data[0].details.concluding_remarks;
+        self.alertClose = false;
       });
       this.ticket.state = false;
       this.alertTicket('Ticket cerrado exitosamente');
+    },
+    deleteTicket: function deleteTicket() {
+      var _this = this;
+
+      var self = this;
+      axios["delete"]("/api/tickets/".concat(self.ticket.id)).then(function (response) {
+        self.alertDelete = false;
+        self.alertTicket('El ticket ha sido eliminado exitosamente');
+
+        _this.$router.go();
+      })["catch"](function (error) {
+        console.log(error);
+      });
     }
   }),
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['ticketClosed']))
@@ -2195,9 +2278,10 @@ var _user = document.head.querySelector('meta[name="user"]');
       axios.post('/api/tickets/', {
         issue: this.issue,
         priority: this.priority,
-        user: this.userAssigned,
+        userAssigned: this.userAssigned,
+        user: JSON.parse(_user.content).id,
         task: this.tasks,
-        assignationDate: this.assignationDate
+        assignation_date: this.assignationDate
       })["catch"](function (error) {
         console.log(error);
       });
@@ -2215,6 +2299,206 @@ var _user = document.head.querySelector('meta[name="user"]');
   }),
   mounted: function mounted() {
     this.getUsers();
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/EditTicket.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/EditTicket.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "EditTicket",
+  data: function data() {
+    return {
+      loading: false,
+      users: [],
+      ticket: {},
+      valid: true,
+      menu: false,
+      priorities: ['ALTO', 'MEDIO', 'BAJO']
+    };
+  },
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(['alertTicket']), {
+    getUsers: function getUsers() {
+      var self = this;
+      axios.get('/api/users').then(function (data) {
+        self.users = data.data;
+        self.loading = false;
+      });
+    },
+    getTicket: function getTicket() {
+      var self = this;
+      axios.get("/api/tickets/".concat(this.$route.params.id)).then(function (response) {
+        self.ticket = response.data;
+      });
+    },
+    updateTicket: function updateTicket() {
+      var _this = this;
+
+      var self = this;
+      this.loading = true;
+      axios.patch("/api/tickets/".concat(this.ticket.id), {
+        issue: this.ticket.issue,
+        priority: this.ticket.priority,
+        user_assigned: this.ticket.user_assigned,
+        task: this.ticket.details.task,
+        assignation_date: this.ticket.assignation_date
+      }).then(function (response) {
+        _this.loading = false;
+        self.alertTicket('Se ha actualizado satisfatoriamente');
+        self.$router.push({
+          name: 'home'
+        });
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
+  }),
+  mounted: function mounted() {
+    this.loading = true;
+    this.getUsers();
+    this.getTicket();
   }
 });
 
@@ -2266,8 +2550,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
+var user = document.head.querySelector('meta[name="user"]');
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Home",
   components: {
@@ -2275,19 +2584,27 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   data: function data() {
     return {
-      tickets: []
+      tickets: [],
+      isLoading: false,
+      user: false
     };
   },
-  methods: _objectSpread({
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])(['closeAlert']), {
     getTickets: function getTickets() {
       var self = this;
+      this.isLoading = true;
       axios.get('/api/tickets').then(function (data) {
         self.tickets = data.data.data;
+        self.isLoading = false;
       });
+    },
+    isLogged: function isLogged() {
+      this.user = user.content && JSON.parse(user.content).id ? false : true;
     }
-  }, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])(['closeAlert'])),
+  }),
   mounted: function mounted() {
     this.getTickets();
+    this.isLogged();
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(['ticketClosed', 'message']))
 });
@@ -37573,10 +37890,10 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Ticket.vue?vue&type=template&id=11e89992&scoped=true&":
-/*!*********************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Ticket.vue?vue&type=template&id=11e89992&scoped=true& ***!
-  \*********************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Ticket.vue?vue&type=template&id=11e89992&":
+/*!*********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Ticket.vue?vue&type=template&id=11e89992& ***!
+  \*********************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -37629,7 +37946,7 @@ var render = function() {
               _c("v-col", { attrs: { cols: "4" } }, [
                 _vm._v(
                   "\n                " +
-                    _vm._s(_vm.ticket.assignationDate) +
+                    _vm._s(_vm.ticket.assignation_date) +
                     "\n            "
                 )
               ]),
@@ -37765,7 +38082,7 @@ var render = function() {
                   _c("v-col", { attrs: { cols: "5" } }, [
                     _vm._v("\n                    Fecha assignada "),
                     _c("span", { staticClass: "badge" }, [
-                      _vm._v(_vm._s(_vm.ticket.assignationDate))
+                      _vm._v(_vm._s(_vm.ticket.assignation_date))
                     ])
                   ]),
                   _vm._v(" "),
@@ -37818,7 +38135,7 @@ var render = function() {
                       _c("v-chip", { attrs: { small: "", label: "" } }, [
                         _vm._v(
                           "\n                        " +
-                            _vm._s(_vm.ticket.user.name) +
+                            _vm._s(_vm.ticket.user_assigned.name) +
                             "\n                    "
                         )
                       ])
@@ -37829,141 +38146,188 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _vm.ticket.state && _vm.isLogged()
-                ? _c(
-                    "v-dialog",
-                    {
-                      attrs: { persistent: "", "max-width": "500" },
-                      scopedSlots: _vm._u(
-                        [
-                          {
-                            key: "activator",
-                            fn: function(ref) {
-                              var on = ref.on
-                              return [
-                                _c(
-                                  "v-btn",
-                                  _vm._g(
-                                    {
-                                      attrs: {
-                                        id: "close-ticket",
-                                        absolute: "",
-                                        dark: "",
-                                        fab: "",
-                                        botton: "",
-                                        right: "",
-                                        small: "",
-                                        color: "#EF5350"
-                                      }
-                                    },
-                                    on
-                                  ),
-                                  [_c("v-icon", [_vm._v("mdi-lock")])],
-                                  1
-                                )
-                              ]
-                            }
-                          }
-                        ],
-                        null,
-                        false,
-                        500917408
-                      ),
-                      model: {
-                        value: _vm.dialog,
-                        callback: function($$v) {
-                          _vm.dialog = $$v
-                        },
-                        expression: "dialog"
-                      }
+              _c(
+                "v-dialog",
+                {
+                  attrs: { "max-width": "500" },
+                  model: {
+                    value: _vm.alertClose,
+                    callback: function($$v) {
+                      _vm.alertClose = $$v
                     },
+                    expression: "alertClose"
+                  }
+                },
+                [
+                  _c(
+                    "v-card",
                     [
+                      _c("v-card-title", { staticClass: "headline" }, [
+                        _vm._v("Desea cerrar el ticket?")
+                      ]),
                       _vm._v(" "),
                       _c(
-                        "v-card",
+                        "v-card-text",
                         [
-                          _c("v-card-title", { staticClass: "headline" }, [
-                            _vm._v("Desea cerrar el ticket?")
-                          ]),
-                          _vm._v(" "),
                           _c(
-                            "v-card-text",
-                            [
-                              _c(
-                                "v-form",
-                                {
-                                  model: {
-                                    value: _vm.validateToClose,
-                                    callback: function($$v) {
-                                      _vm.validateToClose = $$v
-                                    },
-                                    expression: "validateToClose"
-                                  }
+                            "v-form",
+                            {
+                              model: {
+                                value: _vm.validateToClose,
+                                callback: function($$v) {
+                                  _vm.validateToClose = $$v
                                 },
-                                [
-                                  _c("v-textarea", {
-                                    attrs: {
-                                      solo: "",
-                                      "auto-grow": "",
-                                      placeholder: "Observaciones...",
-                                      required: "",
-                                      rules: [
-                                        function(v) {
-                                          return (
-                                            !!v ||
-                                            "Debe agregar Observaciones antes de cerrar"
-                                          )
-                                        }
-                                      ]
-                                    },
-                                    model: {
-                                      value: _vm.concluding_remarks,
-                                      callback: function($$v) {
-                                        _vm.concluding_remarks = $$v
-                                      },
-                                      expression: "concluding_remarks"
+                                expression: "validateToClose"
+                              }
+                            },
+                            [
+                              _c("v-textarea", {
+                                attrs: {
+                                  solo: "",
+                                  "auto-grow": "",
+                                  placeholder: "Observaciones...",
+                                  required: "",
+                                  rules: [
+                                    function(v) {
+                                      return (
+                                        !!v ||
+                                        "Debe agregar Observaciones antes de cerrar"
+                                      )
                                     }
-                                  })
-                                ],
-                                1
-                              )
+                                  ]
+                                },
+                                model: {
+                                  value: _vm.concluding_remarks,
+                                  callback: function($$v) {
+                                    _vm.concluding_remarks = $$v
+                                  },
+                                  expression: "concluding_remarks"
+                                }
+                              })
                             ],
                             1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-card-actions",
+                        [
+                          _c("div", { staticClass: "flex-grow-1" }),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { color: "green darken-1", text: "" },
+                              on: {
+                                click: function($event) {
+                                  _vm.alertClose = false
+                                }
+                              }
+                            },
+                            [_vm._v("Cancelar")]
                           ),
                           _vm._v(" "),
                           _c(
-                            "v-card-actions",
+                            "v-btn",
+                            {
+                              attrs: {
+                                color: "error",
+                                disabled: !_vm.validateToClose
+                              },
+                              on: { click: this.closeTicket }
+                            },
                             [
-                              _c("div", { staticClass: "flex-grow-1" }),
-                              _vm._v(" "),
+                              _vm._v(
+                                "\n                            Cerrar Ticket\n                        "
+                              )
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-dialog",
+                {
+                  attrs: { "max-width": "500" },
+                  model: {
+                    value: _vm.alertDelete,
+                    callback: function($$v) {
+                      _vm.alertDelete = $$v
+                    },
+                    expression: "alertDelete"
+                  }
+                },
+                [
+                  _c(
+                    "v-card",
+                    [
+                      _c("v-card-title", { staticClass: "headline" }, [
+                        _vm._v("Desea eliminar el ticket?")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "v-card-text",
+                        [
+                          _c(
+                            "v-row",
+                            [
                               _c(
-                                "v-btn",
-                                {
-                                  attrs: { color: "green darken-1", text: "" },
-                                  on: {
-                                    click: function($event) {
-                                      _vm.dialog = false
-                                    }
-                                  }
-                                },
-                                [_vm._v("Cancelar")]
+                                "v-col",
+                                [
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: {
+                                        color: "green darken-1",
+                                        text: "",
+                                        block: ""
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          _vm.alertDelete = false
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                    Cancelar\n                                "
+                                      )
+                                    ]
+                                  )
+                                ],
+                                1
                               ),
                               _vm._v(" "),
                               _c(
-                                "v-btn",
-                                {
-                                  attrs: {
-                                    color: "green darken-1",
-                                    text: "",
-                                    disabled: !_vm.validateToClose
-                                  },
-                                  on: { click: this.closeTicket }
-                                },
+                                "v-col",
                                 [
-                                  _vm._v(
-                                    "\n                            Cerrar Ticket\n                        "
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: { color: "error", block: "" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.deleteTicket()
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                    Eliminar Ticket\n                                "
+                                      )
+                                    ]
                                   )
-                                ]
+                                ],
+                                1
                               )
                             ],
                             1
@@ -37971,6 +38335,116 @@ var render = function() {
                         ],
                         1
                       )
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _vm.isAssigned() || _vm.isYours()
+                ? _c(
+                    "v-speed-dial",
+                    {
+                      attrs: {
+                        "open-on-hover": "",
+                        absolute: "",
+                        bottom: "",
+                        fab: "",
+                        right: ""
+                      },
+                      scopedSlots: _vm._u(
+                        [
+                          {
+                            key: "activator",
+                            fn: function() {
+                              return [
+                                _c(
+                                  "v-btn",
+                                  {
+                                    attrs: {
+                                      color: "blue darken-2",
+                                      dark: "",
+                                      small: "",
+                                      fab: ""
+                                    }
+                                  },
+                                  [_c("v-icon", [_vm._v("mdi-tools")])],
+                                  1
+                                )
+                              ]
+                            },
+                            proxy: true
+                          }
+                        ],
+                        null,
+                        false,
+                        2258540259
+                      )
+                    },
+                    [
+                      _vm._v(" "),
+                      (_vm.ticket.state && _vm.isAssigned()) ||
+                      (_vm.ticket.state && _vm.isYours())
+                        ? _c(
+                            "v-btn",
+                            {
+                              attrs: {
+                                dark: "",
+                                small: "",
+                                fab: "",
+                                color: "error"
+                              },
+                              on: {
+                                click: function($event) {
+                                  _vm.alertClose = true
+                                }
+                              }
+                            },
+                            [_c("v-icon", [_vm._v("mdi-lock")])],
+                            1
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.ticket.state && _vm.isYours()
+                        ? _c(
+                            "v-btn",
+                            {
+                              staticClass: "text-decoration-none",
+                              attrs: {
+                                dark: "",
+                                small: "",
+                                fab: "",
+                                color: "warning",
+                                to: "/editar/" + _vm.ticket.id
+                              }
+                            },
+                            [_c("v-icon", [_vm._v("mdi-pencil")])],
+                            1
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      (!_vm.ticket.state && _vm.isYours()) ||
+                      (!_vm.ticket.state && _vm.isAssigned())
+                        ? _c(
+                            "v-btn",
+                            {
+                              attrs: {
+                                dark: "",
+                                small: "",
+                                fab: "",
+                                color: "red"
+                              },
+                              on: {
+                                click: function($event) {
+                                  _vm.alertDelete = true
+                                }
+                              }
+                            },
+                            [_c("v-icon", [_vm._v("mdi-delete")])],
+                            1
+                          )
+                        : _vm._e()
                     ],
                     1
                   )
@@ -38357,6 +38831,405 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/EditTicket.vue?vue&type=template&id=00948915&scoped=true&":
+/*!********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/EditTicket.vue?vue&type=template&id=00948915&scoped=true& ***!
+  \********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "v-card",
+    [
+      _c("v-card-title", { attrs: { justify: "center" } }, [
+        _c("h4", [_vm._v("Editar Ticket")])
+      ]),
+      _vm._v(" "),
+      _c(
+        "v-card-text",
+        [
+          _c(
+            "v-form",
+            {
+              ref: "form",
+              model: {
+                value: _vm.valid,
+                callback: function($$v) {
+                  _vm.valid = $$v
+                },
+                expression: "valid"
+              }
+            },
+            [
+              _vm.ticket && _vm.ticket.details
+                ? _c(
+                    "v-container",
+                    [
+                      _c(
+                        "v-row",
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              counter: 40,
+                              label: "Asunto",
+                              rules: [
+                                function(v) {
+                                  return (
+                                    !!v || "Debe colocar un asunto al ticket"
+                                  )
+                                }
+                              ],
+                              required: ""
+                            },
+                            model: {
+                              value: _vm.ticket.issue,
+                              callback: function($$v) {
+                                _vm.$set(_vm.ticket, "issue", $$v)
+                              },
+                              expression: "ticket.issue"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-row",
+                        [
+                          _c("v-textarea", {
+                            attrs: {
+                              label: "Tareas a ejecutar",
+                              required: "",
+                              "no-resize": "",
+                              rules: [
+                                function(v) {
+                                  return !!v || "agregue tareas al ticket"
+                                }
+                              ]
+                            },
+                            model: {
+                              value: _vm.ticket.details.task,
+                              callback: function($$v) {
+                                _vm.$set(_vm.ticket.details, "task", $$v)
+                              },
+                              expression: "ticket.details.task"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-row",
+                        [
+                          _c(
+                            "v-col",
+                            { attrs: { cols: "4" } },
+                            [
+                              _c("v-select", {
+                                attrs: {
+                                  "prepend-icon": "mdi-car-brake-alert",
+                                  items: _vm.priorities,
+                                  rules: [
+                                    function(v) {
+                                      return !!v || "Seleccione una prioridad"
+                                    }
+                                  ],
+                                  label: "Prioridad",
+                                  required: ""
+                                },
+                                model: {
+                                  value: _vm.ticket.priority,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.ticket, "priority", $$v)
+                                  },
+                                  expression: "ticket.priority"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            { attrs: { cols: "4" } },
+                            [
+                              _c("v-select", {
+                                attrs: {
+                                  "prepend-icon": "mdi-account-arrow-right",
+                                  items: _vm.users,
+                                  "item-text": "name",
+                                  "item-value": "id",
+                                  rules: [
+                                    function(v) {
+                                      return !!v || "Debe asignar un usuario"
+                                    }
+                                  ],
+                                  label: "Usuario a asignar",
+                                  required: ""
+                                },
+                                model: {
+                                  value: _vm.ticket.user_assigned,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.ticket, "user_assigned", $$v)
+                                  },
+                                  expression: "ticket.user_assigned"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            { attrs: { cols: "4" } },
+                            [
+                              _c(
+                                "v-menu",
+                                {
+                                  ref: "menu",
+                                  attrs: {
+                                    "close-on-content-click": false,
+                                    "return-value": _vm.ticket.assignation_date,
+                                    transition: "scale-transition",
+                                    "offset-y": "",
+                                    "min-width": "290px",
+                                    bottom: ""
+                                  },
+                                  on: {
+                                    "update:returnValue": function($event) {
+                                      return _vm.$set(
+                                        _vm.ticket,
+                                        "assignation_date",
+                                        $event
+                                      )
+                                    },
+                                    "update:return-value": function($event) {
+                                      return _vm.$set(
+                                        _vm.ticket,
+                                        "assignation_date",
+                                        $event
+                                      )
+                                    }
+                                  },
+                                  scopedSlots: _vm._u(
+                                    [
+                                      {
+                                        key: "activator",
+                                        fn: function(ref) {
+                                          var on = ref.on
+                                          return [
+                                            _c(
+                                              "v-text-field",
+                                              _vm._g(
+                                                {
+                                                  attrs: {
+                                                    label:
+                                                      "Fecha de asignacion",
+                                                    "prepend-icon":
+                                                      "mdi-calendar-range",
+                                                    readonly: "",
+                                                    rules: [
+                                                      function(v) {
+                                                        return (
+                                                          !!v ||
+                                                          "Debe asignar una fecha al ticket"
+                                                        )
+                                                      }
+                                                    ],
+                                                    required: ""
+                                                  },
+                                                  model: {
+                                                    value:
+                                                      _vm.ticket
+                                                        .assignation_date,
+                                                    callback: function($$v) {
+                                                      _vm.$set(
+                                                        _vm.ticket,
+                                                        "assignation_date",
+                                                        $$v
+                                                      )
+                                                    },
+                                                    expression:
+                                                      "ticket.assignation_date"
+                                                  }
+                                                },
+                                                on
+                                              )
+                                            )
+                                          ]
+                                        }
+                                      }
+                                    ],
+                                    null,
+                                    false,
+                                    334005465
+                                  ),
+                                  model: {
+                                    value: _vm.menu,
+                                    callback: function($$v) {
+                                      _vm.menu = $$v
+                                    },
+                                    expression: "menu"
+                                  }
+                                },
+                                [
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-date-picker",
+                                    {
+                                      attrs: { "no-title": "", scrollable: "" },
+                                      model: {
+                                        value: _vm.ticket.assignation_date,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.ticket,
+                                            "assignation_date",
+                                            $$v
+                                          )
+                                        },
+                                        expression: "ticket.assignation_date"
+                                      }
+                                    },
+                                    [
+                                      _c("div", { staticClass: "flex-grow-1" }),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: { text: "", color: "primary" },
+                                          on: {
+                                            click: function($event) {
+                                              _vm.menu = false
+                                            }
+                                          }
+                                        },
+                                        [_vm._v("Cancel")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: { text: "", color: "primary" },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.$refs.menu.save(
+                                                _vm.ticket.assignation_date
+                                              )
+                                            }
+                                          }
+                                        },
+                                        [_vm._v("OK")]
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                : _c(
+                    "v-container",
+                    { staticClass: "text-center" },
+                    [
+                      _c("v-progress-circular", {
+                        attrs: { indeterminate: "", color: "primary" }
+                      })
+                    ],
+                    1
+                  )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-card-actions",
+        [
+          _c(
+            "v-row",
+            [
+              _c(
+                "v-col",
+                { attrs: { cols: "6" } },
+                [
+                  _c(
+                    "router-link",
+                    {
+                      staticClass: "text-decoration-none",
+                      attrs: { to: { name: "home" } }
+                    },
+                    [
+                      _c("v-btn", { attrs: { color: "error", block: "" } }, [
+                        _vm._v(
+                          "\n                        Cancelar\n                    "
+                        )
+                      ])
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-col",
+                { attrs: { cols: "6" } },
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: {
+                        disabled: !_vm.valid,
+                        color: "success",
+                        block: ""
+                      },
+                      on: { click: _vm.updateTicket }
+                    },
+                    [
+                      _vm._v(
+                        "\n                    Actualizar\n                "
+                      )
+                    ]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Home.vue?vue&type=template&id=63cd6604&scoped=true&":
 /*!**************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Home.vue?vue&type=template&id=63cd6604&scoped=true& ***!
@@ -38375,25 +39248,63 @@ var render = function() {
   return _c(
     "v-container",
     [
-      _c("v-row", { attrs: { justify: "center" } }),
-      _vm._v(" "),
       _c(
         "v-row",
-        { attrs: { justify: "center" } },
         [
           _c(
-            "v-expansion-panels",
-            _vm._l(_vm.tickets, function(ticket) {
-              return _c("ticket", {
-                key: _vm.tickets.id,
-                attrs: { ticket: ticket }
-              })
-            }),
+            "v-snackbar",
+            {
+              attrs: { timeout: 0, top: "", color: "warning" },
+              model: {
+                value: _vm.user,
+                callback: function($$v) {
+                  _vm.user = $$v
+                },
+                expression: "user"
+              }
+            },
+            [
+              _c("v-icon", { attrs: { mdi: "", left: "", color: "white" } }, [
+                _vm._v("\n            mdi-account-clock\n        ")
+              ]),
+              _vm._v(
+                "\n        Inicie session para acceder al control de los tickets\n    "
+              )
+            ],
             1
           )
         ],
         1
       ),
+      _vm._v(" "),
+      !_vm.isLoading
+        ? _c(
+            "v-row",
+            { attrs: { justify: "center" } },
+            [
+              _c(
+                "v-expansion-panels",
+                _vm._l(_vm.tickets, function(ticket) {
+                  return _c("ticket", {
+                    key: ticket.id,
+                    attrs: { ticket: ticket }
+                  })
+                }),
+                1
+              )
+            ],
+            1
+          )
+        : _c(
+            "v-row",
+            { attrs: { justify: "center" } },
+            [
+              _c("v-progress-circular", {
+                attrs: { indeterminate: "", color: "primary" }
+              })
+            ],
+            1
+          ),
       _vm._v(" "),
       _c(
         "v-snackbar",
@@ -90956,6 +91867,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store */ "./resources/js/store.js");
 /* harmony import */ var _views_Home__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./views/Home */ "./resources/js/views/Home.vue");
 /* harmony import */ var _views_CreateTicket__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./views/CreateTicket */ "./resources/js/views/CreateTicket.vue");
+/* harmony import */ var _views_EditTicket__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./views/EditTicket */ "./resources/js/views/EditTicket.vue");
+
 
 
 
@@ -90982,6 +91895,13 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     path: '/nuevo-ticket',
     name: 'new-ticket',
     component: _views_CreateTicket__WEBPACK_IMPORTED_MODULE_4__["default"]
+  }, {
+    path: '/editar/:id',
+    name: 'edit-ticket',
+    component: _views_EditTicket__WEBPACK_IMPORTED_MODULE_5__["default"]
+  }, {
+    path: '/*',
+    component: _views_Home__WEBPACK_IMPORTED_MODULE_3__["default"]
   }]
 });
 var app = new Vue({
@@ -91060,7 +91980,7 @@ if (token) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Ticket_vue_vue_type_template_id_11e89992_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Ticket.vue?vue&type=template&id=11e89992&scoped=true& */ "./resources/js/components/Ticket.vue?vue&type=template&id=11e89992&scoped=true&");
+/* harmony import */ var _Ticket_vue_vue_type_template_id_11e89992___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Ticket.vue?vue&type=template&id=11e89992& */ "./resources/js/components/Ticket.vue?vue&type=template&id=11e89992&");
 /* harmony import */ var _Ticket_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Ticket.vue?vue&type=script&lang=js& */ "./resources/js/components/Ticket.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
@@ -91072,11 +91992,11 @@ __webpack_require__.r(__webpack_exports__);
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
   _Ticket_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _Ticket_vue_vue_type_template_id_11e89992_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _Ticket_vue_vue_type_template_id_11e89992_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _Ticket_vue_vue_type_template_id_11e89992___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Ticket_vue_vue_type_template_id_11e89992___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
-  "11e89992",
+  null,
   null
   
 )
@@ -91102,19 +92022,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/Ticket.vue?vue&type=template&id=11e89992&scoped=true&":
-/*!***************************************************************************************!*\
-  !*** ./resources/js/components/Ticket.vue?vue&type=template&id=11e89992&scoped=true& ***!
-  \***************************************************************************************/
+/***/ "./resources/js/components/Ticket.vue?vue&type=template&id=11e89992&":
+/*!***************************************************************************!*\
+  !*** ./resources/js/components/Ticket.vue?vue&type=template&id=11e89992& ***!
+  \***************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Ticket_vue_vue_type_template_id_11e89992_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Ticket.vue?vue&type=template&id=11e89992&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Ticket.vue?vue&type=template&id=11e89992&scoped=true&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Ticket_vue_vue_type_template_id_11e89992_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Ticket_vue_vue_type_template_id_11e89992___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Ticket.vue?vue&type=template&id=11e89992& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Ticket.vue?vue&type=template&id=11e89992&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Ticket_vue_vue_type_template_id_11e89992___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Ticket_vue_vue_type_template_id_11e89992_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Ticket_vue_vue_type_template_id_11e89992___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -91217,6 +92137,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CreateTicket_vue_vue_type_template_id_165d4072_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CreateTicket_vue_vue_type_template_id_165d4072_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/views/EditTicket.vue":
+/*!*******************************************!*\
+  !*** ./resources/js/views/EditTicket.vue ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _EditTicket_vue_vue_type_template_id_00948915_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EditTicket.vue?vue&type=template&id=00948915&scoped=true& */ "./resources/js/views/EditTicket.vue?vue&type=template&id=00948915&scoped=true&");
+/* harmony import */ var _EditTicket_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EditTicket.vue?vue&type=script&lang=js& */ "./resources/js/views/EditTicket.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _EditTicket_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _EditTicket_vue_vue_type_template_id_00948915_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _EditTicket_vue_vue_type_template_id_00948915_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "00948915",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/views/EditTicket.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/views/EditTicket.vue?vue&type=script&lang=js&":
+/*!********************************************************************!*\
+  !*** ./resources/js/views/EditTicket.vue?vue&type=script&lang=js& ***!
+  \********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EditTicket_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./EditTicket.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/EditTicket.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EditTicket_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/views/EditTicket.vue?vue&type=template&id=00948915&scoped=true&":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/views/EditTicket.vue?vue&type=template&id=00948915&scoped=true& ***!
+  \**************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditTicket_vue_vue_type_template_id_00948915_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./EditTicket.vue?vue&type=template&id=00948915&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/EditTicket.vue?vue&type=template&id=00948915&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditTicket_vue_vue_type_template_id_00948915_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditTicket_vue_vue_type_template_id_00948915_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
